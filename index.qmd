@@ -1,0 +1,156 @@
+---
+title: Peak Climbing Club New Members Survey
+authors:
+  - name: Neil Shephard
+    affiliation: Peak Climbing Club
+    roles: New Member Representative
+    corresponding: true
+bibliography: references.bib
+---
+
+## Overview
+
+The [Peak Climbing Club][pcc] has conducted a [survey][survey] to review the current joining procedure to see if there
+are any improvements that can be made to the process.
+
+``` {r}
+#| label: setup
+#| eval: true
+#| echo: false
+require(tidyverse)
+BASE_DIR <- getwd()
+DATA_DIR <- paste0(BASE_DIR, "/data/")
+CSV_DIR <- paste0(DATA_DIR, "csv/")
+
+survey_file <- paste0(CSV_DIR, "survey.csv")
+survey <- read_csv(survey_file)
+```
+
+``` {r}
+#| label: clean
+#| eval: false
+#| echo: false
+questions <- colnames(survey)
+colnames(survey) <- c("timestamp",
+    "find",
+    "info",
+    "info_suggestion",
+    "indoor_find",
+    "indoor_climb",
+    "outdoor_find",
+    "outdoor_climb",
+    "climb_suggestion",
+    "join",
+    "join_reason",
+    "improve",
+    "other"
+    )
+```
+## Responses
+
+### How did you find out about the club?
+
+``` {r}
+#| label: finding
+#| eval: true
+#| echo: false
+
+```
+
+### How easy was it to find information on joining the Peak Climbing Club?
+
+``` {r}
+#| label: info
+#| eval: true
+#| echo: false
+
+```
+
+### As a prospective/new member how easy was it for you to find information on where and when the club was meeting?
+
+``` {r}
+#| label: where-when
+#| eval: true
+#| echo: false
+
+```
+
+### On the meets you attended at indoor walls how easy was it to find members of the Peak Climbing Club?
+
+``` {r}
+#| label: indoor-find
+#| eval: true
+#| echo: false
+
+```
+
+### On the meets you attended at indoor walls how easy was it to find someone to climb with?
+
+``` {r}
+#| label: indoor-climb
+#| eval: true
+#| echo: false
+
+```
+
+### On the meets you attended at outdoor crags how easy was it to find members of the Peak Climbing Club?
+
+``` {r}
+#| label: outdoor-find
+#| eval: true
+#| echo: false
+
+```
+
+### On the meets you attended at outdoor crags how easy was it find someone to climb with at outdoor crags?
+
+``` {r}
+#| label: outdoor-climb
+#| eval: true
+#| echo: false
+
+```
+
+### If you found it hard to find someone to climb with either indoors or at the crag do you have any suggestions as to how we might improve this?
+
+``` {r}
+#| label: join-reason
+#| eval: true
+#| echo: false
+
+```
+
+### Did you decide to join the Peak Climbing Club?
+
+``` {r}
+#| label: join
+#| eval: true
+#| echo: false
+
+```
+
+
+### Do you have any feedback about how the club could improve the joining process?
+
+``` {r}
+#| label: improve
+#| eval: true
+#| echo: false
+
+```
+
+### Is there anything else you would like to share with us about the process of joining the Peak Climbing Club?
+
+``` {r}
+#| label: other
+#| eval: true
+#| echo: false
+
+```
+
+
+[pcc]: https://www.peakclimbingclub.co.uk/
+[quarto]: https://www.quarto.org/
+[r]: https://www.r-project.org/
+[report]: https://nshephard.dev/pcc-new-member-survey
+[survey]: https://forms.gle/f5JWtnwqUiwh1hgg7

@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0 # Use the ref you want to point at
+    hooks:
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: mixed-line-ending
+        args: [--fix=no]
+      - id: sort-simple-yaml
+      - id: trailing-whitespace
+      types: [file, text]
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+        args: []
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+
+ci:
+  autofix_prs: true
+  autofix_commit_msg: "[pre-commit.ci] Fixing issues with pre-commit"
+  autoupdate_schedule: monthly
+  autoupdate_commit_msg: "[pre-commit.ci] pre-commit-autoupdate"
+  skip: [pylint, pytest] # Optionally list ids of hooks to skip on CI
