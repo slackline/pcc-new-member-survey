@@ -2,17 +2,17 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0 # Use the ref you want to point at
     hooks:
-      - id: end-of-file-fixer
-      - id: fix-byte-order-marker
-      - id: check-merge-conflict
-      - id: check-toml
-      - id: check-xml
-      - id: check-yaml
-      - id: mixed-line-ending
-        args: [--fix=no]
-      - id: sort-simple-yaml
-      - id: trailing-whitespace
-      types: [file, text]
+        - id: end-of-file-fixer
+        - id: fix-byte-order-marker
+        - id: check-merge-conflict
+        - id: check-toml
+        - id: check-xml
+        - id: check-yaml
+        - id: mixed-line-ending
+          args: [--fix=no]
+        - id: sort-simple-yaml
+        - id: trailing-whitespace
+          types: [file, text]
 
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.18.1

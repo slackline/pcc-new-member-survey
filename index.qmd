@@ -6,7 +6,15 @@ authors:
     roles: New Member Representative
     corresponding: true
 bibliography: references.bib
+knitr:
+  opts_chunk:
+    collapse: true
 ---
+
+
+{{< qrcode <https://org-roam.nshephard.dev/pcc-new-member-survey> qr1 width=400 height=400 >}}
+
+## [org-roam.nshephard.dev/pcc-new-member-survey](https://org-roam.nshephard.dev/pcc-new-member-survey)
 
 ## Overview
 
@@ -18,23 +26,28 @@ are any improvements that can be made to the process.
 #| eval: true
 #| echo: false
 require(tidyverse)
+library(plotly)
 BASE_DIR <- getwd()
 DATA_DIR <- paste0(BASE_DIR, "/data/")
 CSV_DIR <- paste0(DATA_DIR, "csv/")
 
 survey_file <- paste0(CSV_DIR, "survey.csv")
 survey <- read_csv(survey_file)
+
+new_member_file <- paste0(CSV_DIR, "mailing_list.csv")
+new_member <- read_csv(new_member_file)
+
 ```
 
 ``` {r}
 #| label: clean
-#| eval: false
+#| eval: true
 #| echo: false
-questions <- colnames(survey)
-colnames(survey) <- c("timestamp",
+col_names <- c("timestamp",
     "find",
     "info",
-    "info_suggestion",
+    "where_when",
+    "improve_where_when",
     "indoor_find",
     "indoor_climb",
     "outdoor_find",
@@ -43,9 +56,94 @@ colnames(survey) <- c("timestamp",
     "join",
     "join_reason",
     "improve",
-    "other"
-    )
+    "other")
+questions <- colnames(survey)
+names(questions) <- col_names
+colnames(survey) <- col_names
+## TODO - Convert to factors
+levels = c("1", "2", "3", "4", "5")
+labels = c("Very Easy", "2", "3", "4", "Very Hard")
+survey <- survey |>
+    dplyr::mutate(find = factor(find,
+                                levels=c("Search on Internet", "Word of Mouth/Friend", "BMC", "Other"),
+                                labels=c("Search on Internet", "Word of Mouth/Friend", "BMC", "Other")),
+                  info = factor(info,
+                                levels=levels,
+                                labels=labels),
+                  where_when = factor(where_when,
+                                      levels=levels,
+                                      labels=labels),
+                  indoor_find = factor(indoor_find,
+                                       levels=levels,
+                                       labels=labels),
+                  indoor_climb = factor(indoor_climb,
+                                        levels=levels,
+                                        labels=labels),
+                  outdoor_find = factor(outdoor_find,
+                                        levels=levels,
+                                        labels=labels),
+                  outdoor_climb = factor(outdoor_climb,
+                                         levels=levels,
+                                         labels=labels),
+                  join = factor(join,
+                                levels=c("No", "Not yet but I intend to", "Yes"),
+                                labels=c("No", "Not yet but I intend to", "Yes")))
+new_member <- new_member |>
+    dplyr::mutate(gender = factor(gender,
+                                levels=c("male", "female"),
+                                labels=c("male", "female")))
+
+
 ```
+
+## Methods
+
+This report was generated using [Quarto][quarto] and the [R][r] statistical programming language and is hosted on GitHub
+Pages.
+
+## Applications
+
+### Gender
+
+Based on names extracted from emails, not necessarily 100% accurate
+
+``` {r}
+#| label: gender
+#| eval: true
+#| echo: false
+#| output: true
+new_member |> ggplot2::ggplot(aes(gender, fill=gender)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["find"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+
+```
+
+### Date of Contact
+
+**TODO**
+``` {r}
+#| label: date-of-contact
+#| eval: true
+#| echo: false
+#| output: true
+## new_member |> ggplot2::ggplot(aes(gender, fill=gender)) +
+##   ggplot2::geom_bar() +
+##   ggplot2::scale_x_discrete(drop = FALSE) +
+##   ## ggplot2::ggtitle(questions[["find"]]) +
+##   ggplot2::ggtitle("") +
+##   ggplot2::xlab("") +
+##   ggplot2::ylab("N") +
+##   ggplot2::theme_minimal() +
+##   ggplot2::theme(legend.position = "none")
+
+```
+
 ## Responses
 
 ### How did you find out about the club?
@@ -54,6 +152,16 @@ colnames(survey) <- c("timestamp",
 #| label: finding
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(find, fill=find)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["find"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
@@ -63,6 +171,16 @@ colnames(survey) <- c("timestamp",
 #| label: info
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(info, fill=factor(info))) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["info"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
@@ -72,6 +190,18 @@ colnames(survey) <- c("timestamp",
 #| label: where-when
 #| eval: true
 #| echo: false
+#| output: true
+
+survey |> ggplot2::ggplot(aes(where_when, fill=where_when)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["where_when"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+
 
 ```
 
@@ -81,6 +211,17 @@ colnames(survey) <- c("timestamp",
 #| label: indoor-find
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(indoor_find, fill=indoor_find)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["indoor_find"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+
 
 ```
 
@@ -90,6 +231,17 @@ colnames(survey) <- c("timestamp",
 #| label: indoor-climb
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(indoor_climb, fill=indoor_climb)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["indoor_climb"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+
 
 ```
 
@@ -99,6 +251,16 @@ colnames(survey) <- c("timestamp",
 #| label: outdoor-find
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(outdoor_find, fill=outdoor_find)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["outdoor_find"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
@@ -108,6 +270,16 @@ colnames(survey) <- c("timestamp",
 #| label: outdoor-climb
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(outdoor_climb, fill=outdoor_climb)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["outdoor_climb"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
@@ -117,6 +289,10 @@ colnames(survey) <- c("timestamp",
 #| label: join-reason
 #| eval: true
 #| echo: false
+#| output: true
+survey |> dplyr::select(join_reason) |>
+  dplyr::filter(!is.na(join_reason)) |>
+  knitr::kable(title="Comments...")
 
 ```
 
@@ -126,6 +302,16 @@ colnames(survey) <- c("timestamp",
 #| label: join
 #| eval: true
 #| echo: false
+#| output: true
+survey |> ggplot2::ggplot(aes(join, fill=join)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ## ggplot2::ggtitle(questions[["join"]]) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
@@ -136,6 +322,10 @@ colnames(survey) <- c("timestamp",
 #| label: improve
 #| eval: true
 #| echo: false
+#| output: true
+survey |> dplyr::select(improve) |>
+  dplyr::filter(!is.na(improve)) |>
+  knitr::kable(title="Comments...")
 
 ```
 
@@ -145,6 +335,10 @@ colnames(survey) <- c("timestamp",
 #| label: other
 #| eval: true
 #| echo: false
+#| output: true
+survey |> dplyr::select(other) |>
+  dplyr::filter(!is.na(other)) |>
+  knitr::kable(title="Comments...")
 
 ```
 

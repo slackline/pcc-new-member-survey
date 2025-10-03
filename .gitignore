@@ -56,3 +56,4 @@ rsconnect/
 \.\#*
 \.scratch/
 \.dir-locals.el
+**/*.quarto_ipynb
