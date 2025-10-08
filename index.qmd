@@ -91,7 +91,15 @@ survey <- survey |>
 new_member <- new_member |>
     dplyr::mutate(gender = factor(gender,
                                 levels=c("male", "female"),
-                                labels=c("male", "female")))
+                                labels=c("male", "female")),
+                  date = lubridate::ymd(date),
+                  month = factor(lubridate::month(date),
+                                 levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+                                 labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")),
+                  week = factor(lubridate::week(date),
+                                levels=seq(from = 1, to = 52, by = 1),
+                                labels=seq(from = 1, to = 52, by = 1)))
 
 
 ```
@@ -124,23 +132,39 @@ new_member |> ggplot2::ggplot(aes(gender, fill=gender)) +
 
 ```
 
-### Date of Contact
+### Month of Contact
 
-**TODO**
 ``` {r}
-#| label: date-of-contact
+#| label: month-of-contact
 #| eval: true
 #| echo: false
 #| output: true
-## new_member |> ggplot2::ggplot(aes(gender, fill=gender)) +
-##   ggplot2::geom_bar() +
-##   ggplot2::scale_x_discrete(drop = FALSE) +
-##   ## ggplot2::ggtitle(questions[["find"]]) +
-##   ggplot2::ggtitle("") +
-##   ggplot2::xlab("") +
-##   ggplot2::ylab("N") +
-##   ggplot2::theme_minimal() +
-##   ggplot2::theme(legend.position = "none")
+new_member |> ggplot2::ggplot(aes(month, fill=month)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("Month") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+
+```
+
+### Week of Contact
+
+``` {r}
+#| label: week-of-contact
+#| eval: true
+#| echo: false
+#| output: true
+new_member |> ggplot2::ggplot(aes(week, fill=week)) +
+  ggplot2::geom_bar() +
+  ggplot2::scale_x_discrete(drop = FALSE) +
+  ggplot2::ggtitle("") +
+  ggplot2::xlab("Week") +
+  ggplot2::ylab("N") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
 
 ```
 
